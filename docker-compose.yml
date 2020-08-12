@@ -1,10 +1,15 @@
 version: "3"
 services:
   jupyter:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - .:/tmp/working
-    working_dir: /tmp/working
+      - .:/working
+    working_dir: /working
     ports:
       - 8888:8888
-    command: jupyter notebook --ip=0.0.0.0 --allow-root --no-browser
+      - 5000:5000
+    environment: 
+      - PYTHONPATH=/working
+    command: bash -c "jupyter lab --notebook-dir=/working --ip=0.0.0.0 --allow-root --no-browser"
